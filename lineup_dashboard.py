@@ -110,7 +110,6 @@ def build_models(stint_data, player_data):
             opp_avg_rating = opp_total_rating / 4.0
             opp_strength = team_strength.get(opp_team, 0)
             
-            stint_minutes = row['minutes']
             home_advantage = 1.0 if is_home else 0.0
             
             rating_diff = our_avg_rating - opp_avg_rating
@@ -126,12 +125,12 @@ def build_models(stint_data, player_data):
                 [opp_strength],
                 [rating_diff],
                 [rating_product],
-                [stint_minutes],
                 [home_advantage]
             ])
             
             X_features.append(features)
-            y_values.append(goal_diff)
+            # Normalize goal differential by minutes
+            y_values.append(goal_diff / row['minutes'])
         
         if len(X_features) == 0:
             continue
@@ -152,7 +151,6 @@ def build_models(stint_data, player_data):
             'opp_strength',
             'rating_diff',
             'rating_product',
-            'stint_minutes',
             'home_advantage'
         ])
         
@@ -322,13 +320,14 @@ try:
             selected_players = team_results['player'].tolist()
         elif selection_mode == "Top 10":
             selected_players = team_results.head(10)['player'].tolist()
-        else:
+        else:  # Custom
             with st.expander("🎯 Custom Player Selection", expanded=True):
                 selected_players = st.multiselect(
                     f"Select players (at least 4) - {len(team_results['player'])} available",
                     team_results['player'].tolist(),
                     default=team_results['player'].tolist(),
-                    label_visibility="collapsed"
+                    label_visibility="collapsed",
+                    key=f"player_select_{selected_team}"
                 )
         
         # Two-column layout: Player stats on left, Results on right
