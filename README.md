@@ -42,6 +42,7 @@ pip install pandas numpy matplotlib seaborn scikit-learn shap streamlit
    ```bash
    streamlit run lineup_dashboard.py
    ```
+3. Note it may take a few moments to load
 
 ## Key Results
 - Model performance metrics (R², RMSE) for all teams

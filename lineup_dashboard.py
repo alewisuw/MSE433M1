@@ -198,16 +198,18 @@ def build_models(stint_data, player_data):
         })
         
         results_df['rating'] = results_df['player'].map(rating_lookup)
-        results_df['combined_impact'] = results_df['player_value'] + results_df['rating_effect']
         
-        # Normalize player_value, rating_effect, and combined_impact using min-max normalization
-        for col in ['player_value', 'rating_effect', 'combined_impact']:
+        # Normalize player_value and rating_effect to [-1, 1]
+        for col in ['player_value', 'rating_effect']:
             min_val = results_df[col].min()
             max_val = results_df[col].max()
             if max_val != min_val:  # Avoid division by zero
-                results_df[col] = (results_df[col] - min_val) / (max_val - min_val)
+                results_df[col] = 2 * (results_df[col] - min_val) / (max_val - min_val) - 1
             else:
                 results_df[col] = 0  # If all values are the same, set to 0
+        
+        # Combined impact is the sum of normalized values
+        results_df['combined_impact'] = results_df['player_value'] + results_df['rating_effect']
         
         results_df = results_df.sort_values('player_value', ascending=False).reset_index(drop=True)
         
@@ -325,7 +327,7 @@ try:
                 selected_players = st.multiselect(
                     f"Select players (at least 4) - {len(team_results['player'])} available",
                     team_results['player'].tolist(),
-                    default=team_results.head(10)['player'].tolist(),
+                    default=team_results['player'].tolist(),
                     label_visibility="collapsed"
                 )
         
