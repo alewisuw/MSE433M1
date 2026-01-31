@@ -3,13 +3,6 @@
 ## Overview
 This project analyzes player performance data to determine optimal team lineups using machine learning and SHAP values. The analysis trains team-specific models, extracts player values, and solves a constrained optimization problem to build the best lineups.
 
-## Environment Setup
-
-### Required Packages
-```bash
-pip install pandas numpy matplotlib seaborn scikit-learn shap streamlit
-```
-
 ### Python Version
 - Python 3.8 or higher recommended
 
@@ -31,21 +24,22 @@ pip install pandas numpy matplotlib seaborn scikit-learn shap streamlit
 
 ### 3. Solve Optimal Lineup Problem (Knapsack)
 - **Objective**: Maximize total player value (sum of SHAP values)
-- **Constraint**: Total player rating ≤ 8.0 (the budget)
+- **Constraint**: Total player rating ≤ 8.0 (the budget), >= 7.0 (minimum rating present in data)
 - **Selection**: Choose exactly 4 players
 - Evaluates all possible 4-player combinations to find optimal lineup
 
 ## How to Run
 
-1. **Analysis Notebook**: Open `analysis.ipynb` and run all cells sequentially
+1. **Install Requirementx**: Activate a virtual environment (recommended) and run `pip install -r requirements.txt`
 2. **Dashboard**: Run the Streamlit dashboard with:
    ```bash
    streamlit run lineup_dashboard.py
    ```
-3. Note it may take a few moments to load
+   Note it may take a few moments to load
 
+The **Analysis.ipynb** Notebook can be ran by clicking run all, like any other Jupyter Notebook
 ## Key Results
-- Model performance metrics (R², RMSE) for all teams
+- Model performance metrics (R²) for all teams
 - Player value rankings based on SHAP analysis
 - Optimal 4-player lineups for each team within rating constraints
 
@@ -54,4 +48,3 @@ pip install pandas numpy matplotlib seaborn scikit-learn shap streamlit
 - `lineup_dashboard.py` - Interactive Streamlit dashboard
 - `model.ipynb` - Additional modeling experiments
 - `data_dict.md` - Data dictionary
-- `README_DASHBOARD.md` - Dashboard documentation
