@@ -43,8 +43,3 @@ The **Analysis.ipynb** Notebook can be ran by clicking run all, like any other J
 - Player value rankings based on SHAP analysis
 - Optimal 4-player lineups for each team within rating constraints
 
-## Files
-- `analysis.ipynb` - Main analysis notebook
-- `lineup_dashboard.py` - Interactive Streamlit dashboard
-- `model.ipynb` - Additional modeling experiments
-- `data_dict.md` - Data dictionary
